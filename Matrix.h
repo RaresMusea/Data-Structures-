@@ -132,14 +132,17 @@ Matrix<T> Matrix<T>::operator+(Matrix<T> const& param) const {
 template<class T>
 Matrix<T> Matrix<T>::transpose() {
 
-	Matrix<T> result(this->rows, this->cols);
-
-	//Liniile devin coloane si viceversa
+	int size = (this->rows > this->cols) ? this->rows : this->cols;
+	
+	Matrix<T> result(size,size);
+	for (int i = 0; i < this->cols; i++)
+		for (int j = 0; j < this->rows; j++)
+			result[i][j] = 0;
 	for (int i = 0; i < this->rows; i++)
 		for (int j = 0; j < this->cols; j++)
-			result[i][j] = (*this)[j][i];
-
+			result[j][i] =( * this)[i][j];
 	return result;
+	
 }
 
 //Citeste o matrice
@@ -150,9 +153,6 @@ void Matrix<T>::read() {
 	cout << "Cate coloane? "; cin >> this->cols;
 
 	(*this) = Matrix<T>(this->rows, this->cols);
-
-	this->arr.setSize((this->rows * this->cols));
-
 
 	for (int i = 0; i < this->rows; i++) {
 		for (int j = 0; j < this->cols; j++) {
@@ -256,14 +256,20 @@ int Matrix<T>::MatrixDet() {
 template <class T>
 bool Matrix<T>::operator == (Matrix<T> param) {
 
-	//Daca 2 matrice difera prin linii/coloane, este clar ca nu sunt identice
-	if (this->getCols() != param.getCols() && this->getRows() != param.getRows())
-		return false;
+	//Daca numarul de linii este egal cu cel de coloane, este posibil ca matricele sa poata coincida, si pentru aceasta le vom parcurge si vom verifica
+	if (this->getCols() == param.getCols() && this->getRows() == param.getRows())
+	{
+		for (int i = 0; i < this->getRows(); i++)
+			for (int j = 0; j < this->getCols(); j++)
+				if ((*this)[i][j] != param[i][j])
+					return false;
 
-	for (int i = 0; i < this->getRows(); i++)
-		for (int j = 0; j < this->getCols(); j++)
-			if ((*this)[i][j] != param[i][j])
-				return false;
+	}
+	
+	//Daca 2 matrice difera prin linii/coloane, este clar ca nu sunt identice
+	else
+		return false;
+	//Matricele coincid
 	return true;
 }
 
@@ -279,6 +285,69 @@ bool isSymmetrical(Matrix<T> m) {
 
 	//Relatia nu este simetrica
 	return false;
+
+}
+
+//Functie care verifica daca o matrice de tip relatie este sau nu reflexiva.
+template <class T>
+bool isReflexive(Matrix<T> m) {
+
+	//O matrice de tip relatie este reflexiva, daca elementele de pe diagonala principala sunt egale cu 1.
+
+	int size = (m.getRows() < m.getCols()) ? m.getRows() : m.getCols();
+
+	//Daca se va gasi cel putin un element nul pe diagonala principala, atunci matricea nu este reflexiva
+	for (int i = 0; i < size; i++)
+		if (m[i][i] != 1)
+			return false;
+
+	//Cazul contrar->Matricea este reflexiva.
+	return true;
+
+}
+
+//Functie care verifica daca o matrice de tip relatie este sau nu tranzitiva
+template <class T>
+bool isTransistive(Matrix<T> m) {
+
+	//O matrice poate fi tranzitiva doar daca numarul de linii si cel de coloane sunt egale
+
+	//Tranzitivitate: Daca (a,b)=(b,c)=(a,c). Vom aplica acest principiu si pe matricea m:
+	if (m.getRows() == m.getCols()) {
+
+		for (int i = 0; i < m.getRows(); i++)
+			for (int j = 0; j < m.getCols(); j++)
+				for (int idx = 0; idx < m.getRows(); idx++)
+					if (m[i][idx] == 1 && m[i][j] == 1 && m[j][idx] == 1)
+						return true;
+
+
+	}
+	//Matricea nu este tranzitiva
+	return false;
+}
+
+template <class T>
+void verifyRelationships(Matrix<T> m) {
+
+	
+	//Simetria
+	if (isSymmetrical(m))
+		cout << "Matricea contine cel putin o relatie simetrica.\n";
+	else
+		cout << "Nu s-a gasit nicio relatie simetrica in matricea data.\n";
+
+	//Reflexivitatea:
+	if (isReflexive(m))
+		cout << "Matricea contine cel putin o relatie reflexiva.\n";
+	else
+		cout << "Nu s-a gasit nicio relatie reflexiva in matricea data.\n";
+
+	//Tranzitivitatea
+	if (isTransistive(m))
+		cout << "Matricea contine cel putin o relatie tranzitiva.\n";
+	else
+		cout << "Nu s-a gasit nicio relatie tranzitiva in matricea data.\n";
 
 }
 

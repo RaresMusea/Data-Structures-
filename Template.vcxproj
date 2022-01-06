@@ -146,6 +146,7 @@
     <ClInclude Include="Array2D.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Pair.h" />
     <ClInclude Include="Perm.h" />
     <ClInclude Include="Polinom.h" />
     <ClInclude Include="SMatrix.h" />

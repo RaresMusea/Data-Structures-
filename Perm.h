@@ -55,6 +55,9 @@ public:
 	//Obtine inversa permutarii curente
 	Permutare& getInverse() const;
 
+	//Obtine gradul permutarii::
+	unsigned int getGrade();
+
 	//Metode de testare:
 	//Metoda care verifica daca o permutare este sau nu valida
 	bool isValid() const;
@@ -69,6 +72,27 @@ public:
 	//Afiseaza pe ecran permutarea
 	void display();
 
+	void create(int gr) {
+		int count = gr;
+		this->grade =gr;
+		for (int i = 1; i <= count; i++) {
+			do {
+				cout << "data[" << i << "]= ";
+				cin >> data[i];
+			} while (i == data[i]);
+			if (data[i]<1 || data[i]>count) {
+				cout << "Valorea introdusa este invalida! \n";
+				do {
+					cout << "data[" << i << "]= ";
+					cin >> data[i];
+				} while (data[i] == i);
+			}
+		}
+	}
+
+	//Citeste permutarea de la tastatura
+	void read(int deg);
+
 	//Supraincarcarea operatorului de scriere in fluxul de iesire, utilizata pentru afisarea in consola a unei permutari
 	friend ostream& operator<<(ostream& os, Permutare& perm) {
 		perm.display();
@@ -79,20 +103,20 @@ public:
 	//Supraincarcarea operatorului de scriere in fluxul de intrare, utilizata pentru citirea de la tastatura a unei permutari
 	friend istream& operator >> (istream& is, Permutare& perm) {
 		
-		unsigned int degree;
-		cout << "Care este gradul permutarii?"; cin >> degree;
-		perm.setGrade(degree);
+		Array<int> freq(perm.grade, 1);
 		perm.data.setSize(perm.grade);
 		perm.data.setBase(1);
 
 		for (int i = 1; i <= perm.grade; i++)
 		{
 			unsigned int current;
-			cout << "Elementul " << i;
-			cin >> current;
+			do {
+				cout << "Elementul " << i;
+				is >> current;
+			} while (perm.data[i] > perm.grade && freq[i] != 1);
 			perm.data[i] = current;
+			freq[i] = 1;
 		}
-
 		return is;
 	}
 
@@ -101,13 +125,17 @@ public:
 //Constructorii clasei:
 
 //Constructor inline de initializare:Initializeaza vectorul data cu permutarea identica
-Permutare::Permutare(unsigned int grade) :grade(grade), data(grade, 1) {
+Permutare::Permutare(unsigned int const nrgrade) :grade(nrgrade), data(nrgrade, 1) {
 	for (int i = 1; i <= grade; i++)
 		data[i] = i;
 }
 
 //Constructorul implicit
-Permutare::Permutare(){}
+Permutare::Permutare() {
+
+	grade = 0;
+	data.setBase(1);
+}
 
 //Constructor de copiere 1
 Permutare::Permutare(Permutare const& perm) {
@@ -120,9 +148,9 @@ Permutare::Permutare(Permutare const& perm) {
 }
 
 //Constructor de copiere 2 (permutarii curente i se vor atribui valorile pasate drept parametru de intrare al constructorului
-Permutare::Permutare(Array<unsigned int> const& vect, unsigned int grade) {
+Permutare::Permutare(Array<unsigned int> const& vect, unsigned int nrgrade) {
 
-	this->grade = grade;
+	this->grade = nrgrade;
 	this->data = vect;
 
 }
@@ -240,6 +268,13 @@ Permutare& Permutare::getInverse() const {
 	return *perm;
 }
 
+//Obtine gradul permutarii::
+unsigned int Permutare:: getGrade() {
+	return this->grade;
+}
+
+
+
 bool Permutare::isValid() const {
 
 	//Definim un vector auxiliar
@@ -300,5 +335,33 @@ void Permutare:: display() {
 	data.visit(printValue);
 	cout << '\n';
 }
+
+//Metoda clasei Permutare, utilizata pentru a citi de la tastarura o permutare
+void Permutare::read(int deg) {
+
+
+	Array<int> freq(deg, 1);
+	this->data.setSize(deg);
+	this->setGrade(deg);
+	this->data.setBase(1);
+
+	for (int i = 1; i <= this->grade; i++)
+		freq[i] = 0;
+
+	for (int i = 1; i <= this->grade; i++)
+	{
+		unsigned int current;
+		do {
+			
+			cout << "Elementul " << i<<": ";
+			cin >> current;
+			this->data[i] = current;
+			freq[current]++;
+
+		} while (this->data[i] > this->grade || freq[current]>1);
+	}
+
+}
+
 
 

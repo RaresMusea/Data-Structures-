@@ -79,8 +79,8 @@ Array<T>::Array(Array<T>const& arr) {
 
 	//Daca adresele de memorie difera, se va sterge continutul obiectului curent si se va copia in acesta, datele din obiectul pasat ca si parametru constructorului.
 	if (this != &arr) {
-
-		this->data = new T[0];
+		data=new T[0];
+		//this->data = new T[0];
 		this->size = arr.size;
 		this->base = arr.base;
 		this->data = new T[size];
@@ -98,7 +98,8 @@ Array<T>::~Array() {
 	
 	//Daca pointer-ul pointeaza catre o adresa, se va elibera memoria alocata.
 	if (data)
-		delete []this->data;
+		delete[]data;
+		
 }
 
 //3.Metode propriu-zise:
