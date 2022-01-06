@@ -54,8 +54,12 @@ public:
 	//Setter pentru stabilirea dimensiunii efective a array-ului
 	void setSize(unsigned int size);
 
+	//Metoda care redimensioneaza un array
+	void resize(unsigned int newSize);
+
+
 	//Metoda de tip iterator, utilizata pentru parcurgerea array-ului
-	void visit(void (*fun)(T&))
+	void visit(void (*fun)(T&));
 	
 };
 
@@ -63,20 +67,20 @@ public:
 //1. Constructori:
 //Constructorul implicit:Constructor inline:
 template <class T>
-Array<T>::Array() :data(new T[0]), base(0), size(0);
+Array<T>::Array() :data(new T[0]), base(0), size(0) {}
 
 //Constructorul de initializare (constructor inline):
 template <class T>
-Array<T>::Array(unsigned int Size, unsigned int Base) :data(new T[Size]), base(Base), size(Size);
+Array<T>::Array(unsigned int Size, unsigned int Base) : data(new T[Size]), base(Base), size(Size) {}
 
 //Constructorul de copiere-Construieste o copie a obiectului pasat ca si parametru in obiectul curent:
 template <class T>
 Array<T>::Array(Array<T>const& arr) {
 
 	//Daca adresele de memorie difera, se va sterge continutul obiectului curent si se va copia in acesta, datele din obiectul pasat ca si parametru constructorului.
-	if (this != &array) {
+	if (this != &arr) {
 
-		delete this->[]data;
+		this->data = new T[0];
 		this->size = arr.size;
 		this->base = arr.base;
 		this->data = new T[size];
@@ -94,7 +98,7 @@ Array<T>::~Array() {
 	
 	//Daca pointer-ul pointeaza catre o adresa, se va elibera memoria alocata.
 	if (data)
-		delete[]data;
+		delete []this->data;
 }
 
 //3.Metode propriu-zise:
@@ -146,8 +150,15 @@ void fun(T& val) {
 template<class T>
 void Array<T>::visit(void(*fun)(T&)) {
 
-	for (int i = 0; i < size; i++)
-		fun(data[i]);
+	if (base == 0) {
+		for (int i = 0; i < this->size; i++)
+			fun(data[i]);
+	}
+
+	else {
+		for (int i = 1; i <= this->size; i++)
+			fun(data[i]);
+	}
 }
 
 //Supraincarcari de operatori
@@ -157,20 +168,28 @@ Array<T>& Array<T>::operator= (Array<T> const& array) {
 
 	//Daca adresele de memorie difera, se va trece la copierea propriu-zisa:
 	if (this != &array) {
-		delete []this->data;
+		delete[]this->data;
 		this->size = array.size;
 		this->base = array.base;
 		this->data = new T[this->size];
 
-		for (int i = 0; i < size; i++)
-			this->data[i] = array.data[i];
+		if (base == 0) {
+			for (int i = 0; i < size; i++)
+				this->data[i] = array.data[i];
+
+		}
+
+		else {
+			for (int i = 1; i <= size; i++)
+				this->data[i] = array.data[i];
+		}
 	}
 
 	//Returnam valoarea obiectului curent
 	return *this;
 }
 
-//Supraincarcare operator de indexare (r-value):se va folosi cand valoarea indexata este o valoarea de dreapta intr-o expresie (valoarea va trebui sa ramana constanta)
+//Supraincarcare operator de indexare (r-value):se va folosi cand valoarea indexata este o valoare de dreapta intr-o expresie (valoarea va trebui sa ramana constanta)
 template <class T>
 T const& Array<T>::operator[](unsigned int position) const{
 
@@ -178,9 +197,13 @@ T const& Array<T>::operator[](unsigned int position) const{
 
 	if (offset > size) {
 		cout << "Pozitie invalida!\n";
-		return;
+		
 	}
-	return data[offest];
+	//Pentru indici de la 0
+	if(base==0)
+		return data[offset];
+
+	return data[offset + 1];
 }
 
 //Supraincarcarea operatorului de indexare (l-value). Permite accesarea membrului data, cu indicele position, in momentul in care acesta apare in stanga expresiei/atribuirii.
@@ -191,12 +214,25 @@ T& Array<T>::operator[](unsigned int position) {
 
 	if (offset > size) {
 		cout << "Pozitie invalida!\n";
-		return;
 	}
-	return data[offset];
+	//Pentru indici de la 0
+	if(base==0)
+		return this->data[offset];
+	//Pentru indici de la 1
+	return this->data[offset + 1];
 }
 
+//Metoda responsabila de redimensionarea unui array.
+template<class T>
+void Array<T>::resize(unsigned int newSize) {
 
+	Array<T> resizedArray(newSize,0);
 
+	for (int i = 0; i < this->getSize(); i++)
+		resizedArray[i] = this->data[i];
+
+	*this = resizedArray;
+
+}
 
 

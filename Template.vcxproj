@@ -143,7 +143,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array.h" />
+    <ClInclude Include="Array2D.h" />
+    <ClInclude Include="Entry.h" />
+    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Perm.h" />
+    <ClInclude Include="Polinom.h" />
+    <ClInclude Include="SMatrix.h" />
     <ClInclude Include="SortArray.h" />
+    <ClInclude Include="Term.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
