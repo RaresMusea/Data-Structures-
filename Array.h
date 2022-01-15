@@ -5,7 +5,6 @@ using namespace std;
 
 //Clasa generica
 template <class T>
-
 class Array {
 protected:
 	//Variabile membru ale clasei
@@ -39,6 +38,9 @@ public:
 	//A doua supraincarcare a operatorului de indexare-Permite accesarea elementului de pe pozitia position, cu posibilitatea modificarii valorii stocate in elementul de pe pozitia respectiva
 	T& operator[] (unsigned int position);
 
+	//Supraincarcarea operatorului de insumare, permite adaugarea unui element in array.
+	Array<T> operator + (T const&);
+
 	//Getter pentru elementele din array
 	T const* getData() const;
 
@@ -57,10 +59,15 @@ public:
 	//Metoda care redimensioneaza un array
 	void resize(unsigned int newSize);
 
+	//Metoda ce utilizeaza cautarea binara, pentru a verifica daca un element se regaseste intr-o instanta a clasei Array.
+	int contains(T const& value);
 
 	//Metoda de tip iterator, utilizata pentru parcurgerea array-ului
 	void visit(void (*fun)(T&));
-	
+
+	//Metoda utilizara pentru a inversa elementele dintr-un array
+	void reverse();
+
 };
 
 //Definirea constructorilor, a destructorilor si a metodelor:
@@ -95,11 +102,11 @@ Array<T>::Array(Array<T>const& arr) {
 //Destructorul clasei Array dealoca memoria alocata pentru pointer-ul data (doar in situatia in care aceasta a fost alocata).
 template <class T>
 Array<T>::~Array() {
-	
-	//Daca pointer-ul pointeaza catre o adresa, se va elibera memoria alocata.
+
+	//Daca pointer - ul pointeaza catre o adresa, se va elibera memoria alocata.
 	if (data)
 		delete[]data;
-		
+
 }
 
 //3.Metode propriu-zise:
@@ -144,7 +151,7 @@ void Array<T>::setBase(unsigned int base) {
 //Functia ce va fi apelata de catre functia de tip iterator (visit)
 template<class T>
 void fun(T& val) {
-	cout << val << " ";
+	cout << val << "\t";
 }
 
 //Metoda de tip iterator (visit):parcurge toate elementele array-ului si le afiseaza, prin apel direct la functia fun(), definita anterior.
@@ -235,5 +242,53 @@ void Array<T>::resize(unsigned int newSize) {
 	*this = resizedArray;
 
 }
+
+//Cauta elementul-parametru in array. Daca acesta se gaseste in array, returneaza pozitia sa, in caz contrar, o valoare negativa.
+template <class T>
+int Array<T>::contains(T const& value) {
+	//Valori necesare pentru implementarea algoritmului
+	int left = 0, right = this->size - 1, middle = 0;
+
+	while (left <= right) {
+		//shiftare pe biti pentru o viteza de calcul sporita
+		middle = (left + right) / 2;
+		if (this->data[middle] < value)
+			left = ++middle;
+		else if (this->data[middle] > value)
+			right = --middle;
+		else
+			return middle; //valoarea a fost gasita, returnam index-ul
+	}
+
+	return (this->base - 1); //valoarea nu a fost gasita, vom returna fie o valoare nula (in cazul in care se opteaza pentru prelucrari cu indici de la 1), fie o valoare negativa (in cazul in care se opteaza pentru prelucrari cu indici de la 0).
+}
+
+
+//Adauga un element in array
+template <class T>
+Array<T> Array<T>:: operator + (T const& el) {
+
+	this->setSize(this->getSize() + 1);
+	this->data[this->getSize() - 1] = el;
+	return (*this);
+}
+
+template <class T>
+void Array<T>::reverse()
+{
+	unsigned int dim = this->getSize();
+	Array<T>reversedArray(dim);
+	int idx = 0;
+
+	for (int i =this->getSize()-1; i>=0;i--)
+		reversedArray[idx++] = this->data[i];
+
+	(*this) = reversedArray;
+
+
+}
+
+
+
 
 

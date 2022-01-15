@@ -1,89 +1,98 @@
-#include "Pair.h"
-#include "SortArray.h"
-#include<iostream>
+#include "StackArray.h" //folosim instanta clasei StackArray pentru a reprezenta in memorie tijele
 
-//Functie recursiva ce calculeaza cel mai mare divizor comun a doua numere utilizand algoritmul lui Stein
-int Stein(int a, int b) {
-	//Situatiile in care numerele sunt egale sau nule
-	if (a == 0) return b;
-	if (b == 0) return a;
-	if (a == b) return a;
+//Numar de bile pe fiecare tija
+int n;
 
-	//Daca prima valoare este para si a doua impara
-	if (a % 2 == 0 && b % 2 == 1)
-		return Stein(a / 2, b);
+//Cteste de la tastatura numarul bilelor/al tijelor, si culoarea bilelor de pe fiecare tija
+void readStacks(Array<StackArray<string>>&stacks) {
+	
 
-	//Daca ambele valori sunt pare
-	if (a % 2 == 0 && b % 2 == 0)
-		return 2 * Stein(a / 2, b / 2);
+	cout << "Introduceti numarul de bile: ";
+	cin >> n;
 
-	//Daca prima valoare este impara si a doua para
-	if (a % 2 == 1 && b % 2 == 0)
-		return Stein(a, b / 2);
+	stacks= (Array<StackArray<string>>(n + 1));
 
-	//Reducerea numerelor mari prin scaderi, la recursie
-	if (a > b)
-		return Stein(((a - b) / 2), b);
-	return Stein(((b - a) / 2), a);
+	string color;
+	//Initializam toate stivele
+	for (int i = 0; i < n; i++) {
+		stacks[i] = StackArray<string>(n);
+		if (i != n) {
+			cout << "Ce culoare au bilele de pe tija " << i + 1 << " ?";
+			cin >> color;
+			for (int j = 0; j < n; j++)
+				stacks[i].push(color);
+		}
+	}
+
+	stacks[n] = StackArray<string>(n * n);
 }
 
 
+//Functie utilizata pentru afisarea tijelor
+void displayStacks(Array<StackArray<string>>stacks) {
 
+	cout << '\n';
 
-//Afiseaza sirul Farey de ordin n
-void displayFareySequence(SortArray<Fraction>result) {
+	for (int i = 0; i < stacks.getSize(); i++) {
+		cout << "Stiva " << i + 1 << ":\n";
+		cout << stacks[i];
+		cout << '\n';
+	}
+}
 
-	for (int i=0; i<result.getSize(); i++) {
+//Rezolva prblema propriu-zisa
+string Solve(Array<StackArray<string>> &stacks) {
 
-		if(i!=result.getSize()-1)
-		cout << "(" << result[i].getNumerator() << " / " << result[i].getDenominator() << "), ";
-		else
-			cout << "(" << result[i].getNumerator() << " / " << result[i].getDenominator() << ")";
+	//Sir de caractere in care vom stoca lista mutarilor
+	string operations = "Lista mutarilor: \n";
+
+	//Mutam cele n-1 bile de pe fiecare tija, pe tija auxiliara, in mod ,,asortat" (colorile sa difere) si adaugam in sirul operations operatiile efectuate la nivel de stiva
+
+	for (int i=0; i <n; i++) {
+
+		
+		if (stacks[i].getCount() != 1) {
+			stacks[n].push(stacks[i].getTop());
+			operations += "S-a mutat bila de culoare " + stacks[i].getTop() +  ", de pe tija " + to_string(i + 1) + " pe tija " + to_string(n + 1)+".\n";
+			stacks[i].pop();
+		}
+
+		//Candu ajungem la numarul de tije-1, reinitializam contorul
+		if (i == n - 1) {
+			i = -1;
+		}
+
+		if (stacks[n].getCount() == pow(n, 2) - n)
+			break;
+		
+	}
+
+	//Mutam pe fiecare tija cate o bila de culoare diferita
+	for (int i = 0; i < n; i++) {
+		
+		//Valoarea unica din tija curenta, inaintea adaugarii bilelor
+		string x = stacks[i].getTop();
+		
+		//Cat timp stiva auxiliara nu este goala, iar culoarea bilei din varful acesteia difera de culoarea bilei din varful tijei pe ca
+		while (!stacks[n]. isEmpty() && stacks[n].getTop() != x) {
+			stacks[i].push(stacks[n].getTop());
+			operations += "S-a mutat bila de culoare " + stacks[n].getTop() + ", cu numarul " + ", de pe tija " + to_string(n+1) + " pe tija " + to_string(i+1) + ".\n";
+			stacks[n].pop();
+		}
 
 	}
 
+	return operations;
 }
 
-
-//Functie care genereaza sirul lui Farey de ordin n si ulterior apeleaza functia de mai sus, pentru a il afisa
-void FareySequence(int n) {
-	
-
-	//Vector de instante ale clasei Fraction, in care vom stoca sirul lui Farey de ordin n
-	SortArray<Fraction> result;
-
-	//Adaugam la sirul lui Farey elementele 0/1, respectiv 1/1;
-	result.addValue(Fraction(0,1));
-
-	//Adaugam restul elementelor
-	for(int i=1;i<=n;i++)
-		for(int j=1+i;j<=n;j++)
-			//Pentru sirul lui Farey, ne asiguram ca adaugam doar elemente ce sunt prime intre ele (cel mai mare divizor comun este 1)
-			if (Stein(i, j) == 1) {
-				Fraction f(i, j);
-				result.addValue(f);
-			}
-	result.addValue(Fraction(1,1));
-	//Afisam secventa
-	cout << "Sirul Farey de ordin " << n << '\n';
-	displayFareySequence(result);
-
-}
-
+//Entry point 
 int main() {
 
-	//Citire dimensiune si apel metode
-	
-	
-	int dim;
-	cout << "Introduceti ordinul sirului Farey: "; cin >> dim;
-	FareySequence(dim);
+	Array<StackArray<string>>stacks;
+	readStacks(stacks);
+	//displayStacks(stacks);
+	string result=Solve(stacks);
+	displayStacks(stacks);
+	cout << result;
 	return 0;
-
-	
-
-
-
-
-
 }

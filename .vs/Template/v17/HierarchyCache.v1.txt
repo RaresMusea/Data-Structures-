@@ -3,19 +3,50 @@ i:{00000000-0000-0000-0000-000000000000}:Template.sln
 ++Template
 i:{00000000-0000-0000-0000-000000000000}:Template
 ++References
-i:{03c26004-e8ea-498d-9aac-dea062b9006a}:{2678A2D4-E1A5-4F88-88D2-2CF01EB36E4E}
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:{3A7556F4-4F83-42D9-BC51-B31580F2BFE4}
 ++External Dependencies
-i:{03c26004-e8ea-498d-9aac-dea062b9006a}:{1DE5A095-BBE6-48A5-824E-97B26381E67D}
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:{D6FDC73A-338A-476B-AF0F-24204A529DE1}
 ++Header Files
 i:{03c26004-e8ea-498d-9aac-dea062b9006a}:Header Files
 ++Array.h
 i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h
+++Array2D.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array2D.h
+++CircularQueue.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\CircularQueue.h
+++Container.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Container.h
+++DoubleStackArray.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\DoubleStackArray.h
 ++Entry.h
 i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Entry.h
+++Exceptions.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Exceptions.h
+++Matrix.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Matrix.h
+++Pair.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Pair.h
+++Perm.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Perm.h
+++Polinom.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Polinom.h
+++Queue.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Queue.h
+++QueueArray.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\QueueArray.h
+++Scroll.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Scroll.h
 ++SMatrix.h
 i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SMatrix.h
 ++SortArray.h
 i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h
+++Stack.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Stack.h
+++StackArray.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\StackArray.h
+++Term.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Term.h
+++Token.h
 ++Resource Files
 i:{03c26004-e8ea-498d-9aac-dea062b9006a}:Resource Files
 ++Source Files
@@ -200,6 +231,8 @@ e:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\PROGRAM FILES (X86)\WINDOWS KITS\10\
 e:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\PROGRAM FILES (X86)\WINDOWS KITS\10\INCLUDE\10.0.22000.0\UCRT\STDLIB.H
 ++streambuf
 e:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\PROFESSIONAL\VC\TOOLS\MSVC\14.30.30705\INCLUDE\STREAMBUF
+++string
+e:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\PROFESSIONAL\VC\TOOLS\MSVC\14.30.30705\INCLUDE\STRING
 ++string.h
 e:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\PROGRAM FILES (X86)\WINDOWS KITS\10\INCLUDE\10.0.22000.0\UCRT\STRING.H
 ++system_error
@@ -288,3 +321,9 @@ e:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDI
 e:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\PROFESSIONAL\VC\TOOLS\MSVC\14.30.30705\INCLUDE\YVALS_CORE.H
 ++zmmintrin.h
 e:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\PROFESSIONAL\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ZMMINTRIN.H
+++Parser.h
+++.h
+++PolishNotation.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\PolishNotation.h
+++PolishNotation2.h
+i:{03c26004-e8ea-498d-9aac-dea062b9006a}:C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\PolishNotation2.h

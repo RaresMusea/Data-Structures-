@@ -1,7 +1,7 @@
 //Fisier Perm.h-> include clasa Permutare ce implementeaza conceptul de permutare, cat si posibilele operatii cu aceste elemente
 
 #pragma once
-#include "Array.h"
+//#include "Array.h"
 
 class Permutare {
 protected:

@@ -1,35 +1,25 @@
 ﻿  Source.cpp
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(21,1): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(34): message : see reference to class template instantiation 'SortArray<T>' being compiled
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(115,1): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Source.cpp(52,17): warning C4018: '<': signed/unsigned mismatch
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(65,17): warning C4018: '<': signed/unsigned mismatch
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(60): message : while compiling class template member function 'SortArray<Fraction> &SortArray<Fraction>::addValue(const T &)'
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h(95,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h(85): message : while compiling class template member function 'Array<T>::Array(const Array<T> &)'
           with
           [
-              T=Fraction
+              T=int
           ]
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Source.cpp(72): message : see reference to function template instantiation 'SortArray<Fraction> &SortArray<Fraction>::addValue(const T &)' being compiled
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\QueueArray.h(35): message : see reference to function template instantiation 'Array<T>::Array(const Array<T> &)' being compiled
           with
           [
-              T=Fraction
+              T=int
           ]
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Source.cpp(47): message : see reference to class template instantiation 'SortArray<Fraction>' being compiled
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(71,11): warning C4018: '<': signed/unsigned mismatch
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h(88,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h(78): message : while compiling class template member function 'Array<T>::Array(const Array<T> &)'
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\QueueArray.h(16): message : see reference to class template instantiation 'Array<T>' being compiled
           with
           [
-              T=Fraction
+              T=int
           ]
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(34): message : see reference to function template instantiation 'Array<T>::Array(const Array<T> &)' being compiled
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\StackFrom2Queues.h(13): message : see reference to class template instantiation 'QueueArray<T>' being compiled
           with
           [
-              T=Fraction
+              T=int
           ]
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(7): message : see reference to class template instantiation 'Array<T>' being compiled
-          with
-          [
-              T=Fraction
-          ]
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Source.cpp(104): message : see reference to class template instantiation 'StackFromQueues<int>' being compiled
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\QueueArray.h(56): warning C4715: 'QueueArray<int>::getHead': not all control paths return a value
   Template.vcxproj -> C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\x64\Debug\Template.exe

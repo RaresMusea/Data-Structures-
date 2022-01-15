@@ -144,14 +144,27 @@
   <ItemGroup>
     <ClInclude Include="Array.h" />
     <ClInclude Include="Array2D.h" />
+    <ClInclude Include="CircularQueue.h" />
+    <ClInclude Include="Container.h" />
+    <ClInclude Include="DoubleStackArray.h" />
     <ClInclude Include="Entry.h" />
+    <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Pair.h" />
     <ClInclude Include="Perm.h" />
     <ClInclude Include="Polinom.h" />
+    <ClInclude Include="Prompter.h" />
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="QueueArray.h" />
+    <ClInclude Include="QueueFrom2Stacks.h" />
+    <ClInclude Include="Scroll.h" />
     <ClInclude Include="SMatrix.h" />
     <ClInclude Include="SortArray.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="StackArray.h" />
+    <ClInclude Include="StackFrom2Queues.h" />
     <ClInclude Include="Term.h" />
+    <ClInclude Include="PolishNotation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
