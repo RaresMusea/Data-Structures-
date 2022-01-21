@@ -1,0 +1,40 @@
+Forma expresiei poloneze infixate (normale) este:
+3 + 4 
+
+
+Forma expresiei poloneze inverse (postfixate) este: 
+3 4 + 
+
+
+Forma expresiei poloneze infixate (normale) este:
+3 + 4 
+
+
+Forma expresiei poloneze inverse (postfixate) este: 
+3 4 + 
+
+
+Forma expresiei poloneze infixate (normale) este:
+3 + 4 
+
+
+Forma expresiei poloneze inverse (postfixate) este: 
+3 4 + 
+
+
+Forma expresiei poloneze prefixate este: 
++ 3 4 
+
+
+Forma expresiei poloneze infixate (normale) este:
+24 ^ 5 * 32 / 4 - 3 + 2 
+
+
+Forma expresiei poloneze inverse (postfixate) este: 
+24 5 ^ 32 4 / * 3 - 2 + 
+
+
+Forma expresiei poloneze prefixate este: 
++ - * ^ 24 5 / 32 4 3 2 
+
+

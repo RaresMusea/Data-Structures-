@@ -1,4 +1,3 @@
-
 //Fisier PolishNotation.h->Contine implementarile a doua clase, anume Token si Parser, ce vor fi utilizate impreuna pentru a permite evaluarea expresiilor aritmetice folosind stiva.
 
 #pragma once
@@ -6,47 +5,52 @@
 #include "StackArray.h" //vom folosi stiva drept vector
 #include<string.h> //Vectori de caractere C
 #include <string> //Clasa std::string
+#include <stdexcept> //Pentru a putea utiliza runtime_error
+#include <fstream>//fisiere
 
 //Clasa Token:->realizeaza o analiza lexicala a unei expresii aritmetice
-class Token {
-
+class Token
+{
 protected:
-
 	//Sir de caractere in care vom stoca expresia aritmetica
 	string data;
 
 public:
-
-	Token(){}
+	Token()
+	{
+	}
 
 	//Constructor de initializare-initializeaza membrul data cu caracterul s.
-	Token(const char s) {
-		
+	Token(const char s)
+	{
 		data += s;
 	}
 
 	//Constructor de copiere, copiaza membrul data al clasei t in instanta curenta a clasei Token
-	Token(Token const& t) {
-		
+	Token(const Token& t)
+	{
 		data = t.data;
 	}
 
-	Token(string const& str) {
-	
+	Token(const string& str)
+	{
 		data += str;
 	}
 
-	string getData() {
+	string getData()
+	{
 		return data;
 	}
 
 	//Verifica daca token-ul curent este sau nu operator
-	bool isOperator() {
-
-		string operators = "+-*/";
+	bool isOperator()
+	{
+		string operators = "+-*/^";
 		bool found = false;
-		if (data.size() == 1) {
-			for (int i = 0; i < operators.length(); i++) {
+		if (data.size() == 1)
+		{
+			for (int i = 0; i < operators.length(); i++)
+			{
 				if (data.find(operators[i]) != string::npos)
 					found = true; //token-ul a fost gasit
 			}
@@ -57,31 +61,31 @@ public:
 
 
 	//Verifica daca token-ul curent este sau nu un operand
-	bool isOperand() {
-
+	bool isOperand()
+	{
 		//Parcurgem token-ul
-		for (int i = 0; i < data.length(); i++) {
-
+		for (int i = 0; i < data.length(); i++)
+		{
 			if (isalpha(data[i]))
 				continue;
 			//Situatia in care token-ul nu este un numar intreg valid
-			if (data[i] < '0' || data[i]>'9')
+			if (data[i] < '0' || data[i] > '9')
 				return false;
 		}
 
 		//Token valid
 		return true;
-
 	}
 
-	bool isLiteral() {
+	bool isLiteral()
+	{
 		return isalpha(this->data[0]);
 	}
 
 	//Obtine prioritatea unui operand
-	int getPriority() {
-		
-		char operators[] = "+-*/";
+	int getPriority()
+	{
+		char operators[] = "+-*/^";
 
 		if (isOperator())
 			for (int i = 0; i < strlen(operators); i++)
@@ -93,9 +97,8 @@ public:
 	}
 
 	//Returneaza valoarea curenta a tokenului in situatia in care acesta este un operand. In caz contrar, 0.
-	unsigned int getValue() {
-
-
+	unsigned int getValue()
+	{
 		if (!isOperand())
 			return 0;
 
@@ -107,22 +110,23 @@ public:
 			value = value * 10 + (data[i] - '0');
 
 		return value;
-
 	}
 
 	//Obtine token-ul curent
-	string getToken() {
-
+	string getToken()
+	{
 		return this->data;
 	}
 };
 
 
-//Inverseaza un array de tokens
-void reverseTokensArray(Array<Token>& expr) {
 
+
+//Inverseaza un array de tokens
+inline void reverseTokensArray(Array<Token>& expr)
+{
 	int idx = 0;
-	Array<Token>res(expr.getSize());
+	Array<Token> res(expr.getSize());
 	for (int i = res.getSize() - 1; i >= 0; i--)
 		res[idx++] = expr[i];
 
@@ -130,67 +134,69 @@ void reverseTokensArray(Array<Token>& expr) {
 }
 
 //Functie ce construieste forma poloneza postfixata, primind drept parametru un string, reprezentand token-urile ce compun forma prefixata si un array de tokens in care va stoca rezultatul
-void buildpostFixFromString(string s, Array<Token>& arr) {
+inline void buildpostFixFromString(string s, Array<Token>& arr)
+{
 	//Contor vector
 	int counter = 0;
 
 	//Sir de operatori
-	string op = "+-*/";
+	string op = "+-*/^";
 	for (int i = 0; i < s.size();)
 	{
-		string builder="";
+		string builder = "";
 		//Daca caracterul s[i] este spatiu, functia trece mai departe
-		if (s[i] == ' ') {
+		if (s[i] == ' ')
+		{
 			i += 1;
 		}
 
 		//Daca se gaseste un operator se adauga in vectorul suport aferent expresiei postfixate si iteratia continua
 		if (op.find(s[i]) != string::npos)
-			arr[counter++]=Token(s[i++]);
+			arr[counter++] = Token(s[i++]);
 
-		else {
+		else
+		{
 			//Daca se gaseste o secventa de cifre neseparate de spatii sau operatori, se adauga numerele separat in array.
-			if (isdigit(s[i]) || isalpha(s[i])) {
+			if (isdigit(s[i]) || isalpha(s[i]))
+			{
 				int j = i;
-				while (s[i] != ' ' && op.find(s[i])==string::npos && i < s.size()) {
+				while (s[i] != ' ' && op.find(s[i]) == string::npos && i < s.size())
+				{
 					builder += s[i++];
 				}
 				arr[counter++] = builder;
-
 			}
 		}
 
 		//Apelam setter-ul pentru a seta dimensiunea efectiva a array-ului suport pentru forma poloneza postfixata
 		arr.setSize(counter);
-
 	}
 }
 
 
 //Clasa Parser:contine 2 vectori de tip Token ce vor corespunde reprezentarii expresiei de intrare in forma infixata (normala) si postfixata.
 
-class Parser {
-
+class Parser
+{
 private:
-
 	//Vector pentru forma normala
 	Array<Token> tokensInFix;
 
 	//Vector pentru forma postfixata
-	Array<Token>tokensPostFix;
+	Array<Token> tokensPostFix;
 
 	//Vector pentru forma prefixata
-	Array<Token>tokensPreFix;
+	Array<Token> tokensPreFix;
 
 	//Numarul de elemente efective din cei trei vectori declarati anterior
-	int inCount, postCount,preCount;
+	int inCount, postCount, preCount;
 
 public:
-
 	//Constructorul de initializare, primeste ca si parametru un sir de caractere reprezentand expresia, respectiv un alt sir in care se specifica felul in care se poate apela metoda de parsare a expresiei catre forma infixata
-	Parser(string s,string choice) {
+	Parser(string s, string choice)
+	{
 		inCount = postCount = preCount = 0;
-		this->tokensInFix=Array<Token>(20,0);
+		this->tokensInFix = Array<Token>(20, 0);
 		this->tokensPostFix = Array<Token>(20, 0);
 		this->tokensPreFix = Array<Token>(20, 0);
 		if (choice == "math")
@@ -201,10 +207,10 @@ public:
 
 
 	//Parseaza expresia matematica (cu  operanzii valori numerice) stocata in sirul de caractere pasat ca si parametru la forma infixata (normala)
-	void parseMathematicExpression(string s) {
-	
+	void parseMathematicExpression(string s)
+	{
 		//Operatorii
-		string operators = "+-*/";
+		string operators = "+-*/^";
 
 		//Parcurgem expresia caracter cu caracter
 		for (int i = 0; i < s.length();)
@@ -218,53 +224,55 @@ public:
 			{
 				int j = i;
 				//Se incearca construirea token-ului, in situatia in care dimensiunea acestuia depaseste dimensiunea vectorului asociat formei normale, se va lansa o exceptie
-				try {
-					while (isdigit(s[i]) && i<s.size())
+				try
+				{
+					while (isdigit(s[i]) && i < s.size())
+					{
 						if (k >= 20)
 							throw PolishNotationException();
-						else {
-							strToken += s[i++];
-							k++;
-						}
+						strToken += s[i++];
+						k++;
+					}
 				}
-				catch (PolishNotationException& pnex) {
+				catch (PolishNotationException& pnex)
+				{
 					pnex.handle("Eroare!\n Operandul este prea lung!");
 				}
-
 			}
 			//Se adauga rand pe rand operatorii ce apar in expresie
 			else
 			{
 				//Este operator
-				if (operators.find(s[i]) != string::npos) {
+				if (operators.find(s[i]) != string::npos)
+				{
 					strToken += s[i];
 					k++;
 					i++;
 				}
-
 			}
 
-			try {
+			try
+			{
 				//Daca token-ul curent are dimensiune 0, se va lansa o exceptie, altfel se introduce token-ul in vectorul suport formei infixate
-				if (k==0)
+				if (k == 0)
 					throw PolishNotationException();
 				Token tk(strToken);
 				tokensInFix[inCount++] = tk;
 			}
 			//Tratare exceptii
-			catch (PolishNotationException& pnex) {
+			catch (PolishNotationException& pnex)
+			{
 				pnex.handle("Eroare!\nExpresia este invalida!");
-
 			}
 		}
 		tokensInFix.setSize(inCount);
 	}
 
 	//Parseaza expresia matematica (cu operanzii litere) stocata in sirul de caractere pasat ca si parametru la forma infixata (normala)
-	void parseStringExpression(string s) {
-
+	void parseStringExpression(string s)
+	{
 		//Operatorii
-		string operators = "+-*/";
+		string operators = "+-*/^";
 
 		//Parcurgem expresia caracter cu caracter
 		for (int i = 0; i < s.length();)
@@ -278,33 +286,35 @@ public:
 			{
 				int j = i;
 				//Se incearca construirea token-ului, in situatia in care dimensiunea acestuia depaseste dimensiunea vectorului asociat formei normale, se va lansa o exceptie
-				try {
+				try
+				{
 					while (isalpha(s[i]) && i < s.size())
+					{
 						if (k >= 20)
 							throw PolishNotationException();
-						else {
-							strToken += s[i++];
-							k++;
-						}
+						strToken += s[i++];
+						k++;
+					}
 				}
-				catch (PolishNotationException& pnex) {
+				catch (PolishNotationException& pnex)
+				{
 					pnex.handle("Eroare!\n Operandul este prea lung!");
 				}
-
 			}
 			//Se adauga rand pe rand operatorii ce apar in expresie
 			else
 			{
 				//Este operator
-				if (operators.find(s[i]) != string::npos) {
+				if (operators.find(s[i]) != string::npos)
+				{
 					strToken += s[i];
 					k++;
 					i++;
 				}
-
 			}
 
-			try {
+			try
+			{
 				//Daca token-ul curent are dimensiune 0, se va lansa o exceptie, altfel se introduce token-ul in vectorul suport formei infixate
 				if (k == 0)
 					throw PolishNotationException();
@@ -312,32 +322,35 @@ public:
 				tokensInFix[inCount++] = tk;
 			}
 			//Tratare exceptii
-			catch (PolishNotationException& pnex) {
+			catch (PolishNotationException& pnex)
+			{
 				pnex.handle("Eroare!\nExpresia este invalida!");
-
 			}
 		}
 		tokensInFix.setSize(inCount);
 	}
 
 	//Metoda utilizata pentru transformarea expresiei din forma poloneza normala in forma poloneza postfixata
-	void inFixToPostFix() {
-
+	void inFixToPostFix()
+	{
 		//Stiva cu ajutorul careia se va realiza transformarea expresiei
-		StackArray<Token>stack(15);
+		StackArray<Token> stack(15);
 
 		int i = 0;
-		while (i < tokensInFix.getSize()) {
+		while (i < tokensInFix.getSize())
+		{
 			//Daca token-ul curent din vectorul aferent expresiei poloneze normale este operand
-			if (tokensInFix[i].isOperand()) {
+			if (tokensInFix[i].isOperand())
+			{
 				tokensPostFix[postCount++] = tokensInFix[i];
 			}
 
 			//Cazul contrar (token-ul este operator)
-			else {
+			else
+			{
 				//Cat timp stiva nu este goala si prioritatea operatorului din varful stivei este mai mare decat cea a operatorului din expresia normala
-				while (!stack.isEmpty() && stack.getTop().getPriority() > tokensInFix[i].getPriority()) {
-
+				while (!stack.isEmpty() && stack.getTop().getPriority() > tokensInFix[i].getPriority())
+				{
 					//Retinem elementul din varful stivei si ulterior il eliminam
 					Token t = stack.getTop();
 					stack.pop();
@@ -357,14 +370,13 @@ public:
 		}
 
 		tokensPostFix.setSize(postCount);
-
-	}		
+	}
 
 	//Metoda utilizata pentru transformarea unei expresii infixate (normale) intr-o expreise prefixata
-	void inFixToPrefix() {
-
+	void inFixToPrefix()
+	{
 		//Initializam stiva in care vom insera operatorii
-		StackArray<Token>stack(15);
+		StackArray<Token> stack(15);
 		//Inversam vectorul de tokens ce contine stocata forma infixata a unei expresii
 		reverseTokensArray(tokensInFix);
 
@@ -375,26 +387,28 @@ public:
 			if (tokensInFix[i].isOperand())
 				tokensPreFix[preCount++] = tokensInFix[i];
 
-			//Cazul contrar, token-ul este un operator
-			else if (tokensInFix[i].isOperator()) {
-
+				//Cazul contrar, token-ul este un operator
+			else if (tokensInFix[i].isOperator())
+			{
 				//Daca stiva operatorilor este vida, adaugam acel operator in stiva
 				if (stack.isEmpty())
 					stack.push(tokensInFix[i]);
 
-				else {
+				else
+				{
 					//Daca operatorul curent are o prioritate mai mare decat operatorul din varful stivei, atunci putem adauga operatorul in stiva de operatori
 					if (tokensInFix[i].getPriority() > stack.getTop().getPriority())
 						stack.push(tokensInFix[i]);
 
-					//La fel, daca prioritatile coincid, se poate face inserarea in stiva a operatorului
+						//La fel, daca prioritatile coincid, se poate face inserarea in stiva a operatorului
 					else if (tokensInFix[i].getPriority() == stack.getTop().getPriority())
 						stack.push(tokensInFix[i]);
 
-					//Daca prioritatea elementului curent este mai mica decat cea a operatorului din varful stivei, atunci se elimina din varful stivei operatorii si se adauga la vectorul rezultant, pana cand se obtine o relatie de comparatie precum cele tratate anterior
-					else if (tokensInFix[i].getPriority() < stack.getTop().getPriority()) {
-
-						while (!stack.isEmpty() && tokensInFix[i].getPriority() < stack.getTop().getPriority()) {
+						//Daca prioritatea elementului curent este mai mica decat cea a operatorului din varful stivei, atunci se elimina din varful stivei operatorii si se adauga la vectorul rezultant, pana cand se obtine o relatie de comparatie precum cele tratate anterior
+					else if (tokensInFix[i].getPriority() < stack.getTop().getPriority())
+					{
+						while (!stack.isEmpty() && tokensInFix[i].getPriority() < stack.getTop().getPriority())
+						{
 							Token t = stack.getTop();
 							stack.pop();
 							tokensPreFix[preCount++] = t;
@@ -405,56 +419,61 @@ public:
 				}
 			}
 		}
-			
-		//In cazul in care au mai ramas operatori in stiva, ii adaugam in array, rand pe rand, pana cand stiva devine goala
-			while (!stack.isEmpty()) {
-				Token t = stack.getTop();
-				stack.pop();
-				tokensPreFix[preCount++] = t;
-			}
-			
 
-			//Setam dimensiunea array-ului in care am stocat forma prefixata si ulterior il inversam, pentru a permite afisarea corecta a acestuia, implicit a formei poloneze prefixate.
-			tokensPreFix.setSize(preCount);
-			reverseTokensArray(tokensPreFix);
+		//In cazul in care au mai ramas operatori in stiva, ii adaugam in array, rand pe rand, pana cand stiva devine goala
+		while (!stack.isEmpty())
+		{
+			Token t = stack.getTop();
+			stack.pop();
+			tokensPreFix[preCount++] = t;
+		}
+
+
+		//Setam dimensiunea array-ului in care am stocat forma prefixata si ulterior il inversam, pentru a permite afisarea corecta a acestuia, implicit a formei poloneze prefixate.
+		tokensPreFix.setSize(preCount);
+		reverseTokensArray(tokensPreFix);
 	}
 
 	//Metoda care transforma o expresie matematica (alcatuita doar din operanzi valori numerice) din forma prefixata in forma poloneza inversa (postfixata).
-	void PreFixToPostFix(){
-		
-		try {
+	void PreFixToPostFix()
+	{
+		try
+		{
 			if (preCount == 0)
 				throw PolishNotationException();
-			
 		}
-		catch (PolishNotationException& pnex) {
-			pnex.handle("Eroare!\n Nu a fost detectata nicio expresie in forma poloneza prefixata. Doriti sa creati o expresie prefixata pornind de la forma infixata introdusa? (Y/N)");
+		catch (PolishNotationException& pnex)
+		{
+			pnex.handle(
+				"Eroare!\n Nu a fost detectata nicio expresie in forma poloneza prefixata. Doriti sa creati o expresie prefixata pornind de la forma infixata introdusa? (Y/N)");
 			char choice;
 			cin >> choice;
-			if (choice == 'y' || choice == 'Y') {
+			if (choice == 'y' || choice == 'Y')
+			{
 				this->inFixToPrefix();
 				displayPreFix();
 			}
-			else {
+			else
+			{
 				return;
 			}
 		}
 
 		cout << endl;
 		//Ne asiguram ca vectorul tokensPostFix, in care vom stoca expresia transformata are un numar suficient de elemente pentru stocarea valorilor
-		postCount =0;
+		postCount = 0;
 		tokensPostFix.setSize(tokensPreFix.getSize());
-		
+
 		//Stiva utilizata pentru stocarea operanzilor 
-		StackArray<Token>stack(15);
+		StackArray<Token> stack(15);
 
-		int idx=tokensPreFix.getSize()-1;
+		int idx = tokensPreFix.getSize() - 1;
 
-		while (idx >= 0) {
-
+		while (idx >= 0)
+		{
 			//Daca valoarea curenta aferenta expresiei poloneze prefixate este operator, atunci vom elimina doi operanzi din stiva, ii vom concatena cu operatorul si vom adauga tot token-ul rezultat inapoi in stiva
-			if (tokensPreFix[idx].isOperator()) {
-
+			if (tokensPreFix[idx].isOperator())
+			{
 				string t1 = stack.getTop().getToken();
 				//Adaugam spatii la primul element extas din varf, pentru a putea facilita parsarea sirului x in array-ul de tokens tokensPostFix
 				t1 += " ";
@@ -464,7 +483,7 @@ public:
 				stack.pop();
 				//string op = tokensPreFix[idx].getToken()+" ";
 				//Concatenam expresia t1 operator t2 si o adaugam inapoi in stiva
-				stack.push((Token(t1+t2+tokensPreFix[idx].getToken())));
+				stack.push((Token(t1 + t2 + tokensPreFix[idx].getToken())));
 			}
 
 			//Token-ul este un operand, il adaugam in stiva de operanzi
@@ -483,17 +502,17 @@ public:
 	}
 
 
-
-
 	//Metoda utilizata pentru afisarea pe ecran a vectorului suport al metodei normale
-	void displayInFix() {
-
+	void displayInFix()
+	{
 		cout << "Forma expresiei poloneze infixate (normale) este:\n";
 
-		for (int i = 0; i < inCount; i++) {
+		for (int i = 0; i < inCount; i++)
+		{
 			if (tokensInFix[i].isOperator())
 				cout << tokensInFix[i].getToken() << " ";
-			else {
+			else
+			{
 				//Operanzi numerici
 				if (!tokensInFix[i].isLiteral())
 					cout << tokensInFix[i].getValue() << " ";
@@ -502,18 +521,20 @@ public:
 					cout << tokensInFix[i].getToken() << " ";
 			}
 		}
-		
+
 		cout << '\n';
 	}
 
 	//Metoda utilizata pentru afisarea pe ecran a vectorului suport al metodei poloneze postfixate
-	void displayPostFix() {
-
+	void displayPostFix()
+	{
 		cout << "Forma expresiei poloneze inverse (postfixate) este: \n";
-		for (int i = 0; i < this->tokensPostFix.getSize(); i++) {
+		for (int i = 0; i < this->tokensPostFix.getSize(); i++)
+		{
 			if (tokensPostFix[i].isOperator())
 				cout << tokensPostFix[i].getToken() << " ";
-			else {
+			else
+			{
 				//Operanzi numerici
 				if (!tokensPostFix[i].isLiteral())
 					cout << tokensPostFix[i].getValue() << " ";
@@ -527,13 +548,15 @@ public:
 	}
 
 	//Metoda utilizata pentru afisarea pe ecran a vectorului suport al metodei poloneze prefixate
-	void displayPreFix() {
-
+	void displayPreFix()
+	{
 		cout << "Forma expresiei poloneze prefixate este: \n";
-		for (int i = 0; i < preCount; i++) {
+		for (int i = 0; i < preCount; i++)
+		{
 			if (tokensPreFix[i].isOperator())
 				cout << tokensPreFix[i].getToken() << " ";
-			else {
+			else
+			{
 				//Operanzi numerici
 				if (!tokensPreFix[i].isLiteral())
 					cout << tokensPreFix[i].getValue() << " ";
@@ -544,9 +567,171 @@ public:
 		}
 
 		cout << '\n';
+	}
+
+	//Realizeaza operatia operand1 op operand2
+	double operate(double operand1, double operand2, Token op)
+	{
+		if (op.isOperator())
+			switch (op.getData()[0])
+			{
+			//Adunarea
+			case '+':
+				{
+					return operand1 + operand2;
+					break;
+				}
+
+			//Scaderea
+			case '-':
+				{
+					return operand1 - operand2;
+					break;
+				}
+
+			case '*':
+				{
+					return operand1 * operand2;
+					break;
+				}
+
+			//Impartirea
+			case '/':
+				{
+					if (operand2 == 0)
+						throw runtime_error("Eroare matematica!\nS-a incercat impartirea unui operand la 0!");
+					return operand1 / operand2;
+					break;
+				}
+
+			//Ridicarea la putere
+			case '^':
+				{
+					return pow(operand1, operand2);
+					break;
+				}
+
+			//Caz default
+			default:
+				throw runtime_error("Nu se poate efectua operatia matematica!");
+			}
+	}
+
+	//Evalueaza o expresie (matematica) in forma poloneza postfixata
+	double evalPostFix()
+	{
+		StackArray<double>stack(15);
+		for(int i=0;i<tokensPostFix.getSize();i++)
+		{
+			if (tokensPostFix[i].isOperator())
+			{
+				double first = stack.getTop();
+				stack.pop();
+				double second = stack.getTop();
+				stack.pop();
+				if (tokensPostFix[i].getData() != "^")
+					stack.push(operate(first, second, tokensPostFix[i]));
+				else
+					stack.push(operate(second, first, tokensPostFix[i]));
+			}
+			else
+				stack.push(tokensPostFix[i].getValue());
+		}
+		return stack.getTop();
+	}
+
+
+	//Salveaza o expresie in forma infixata intr-un fisier:
+	void saveInFixToFile(const string& path)
+	{
+		ofstream out(path, ios::app);
+		out << "Forma expresiei poloneze infixate (normale) este:\n";
+
+		for (int i = 0; i < inCount; i++)
+		{
+			if (tokensInFix[i].isOperator())
+				out << tokensInFix[i].getToken() << " ";
+			else
+			{
+				//Operanzi numerici
+				if (!tokensInFix[i].isLiteral())
+					out<< tokensInFix[i].getValue() << " ";
+				else
+					//Posibilitatea de a avea litere drept operanzi
+					out << tokensInFix[i].getToken() << " ";
+			}
+		}
+
+		out << "\n\n\n";
+		out.close();
+	}
+
+	//Salveaza o expresie in forma poloneza postfixata intr-un fisier:
+	void savePostFixToFile(const string& path)
+	{
+		ofstream out(path, ios::app);
+		out << "Forma expresiei poloneze inverse (postfixate) este: \n";
+		for (int i = 0; i < this->tokensPostFix.getSize(); i++)
+		{
+			if (tokensPostFix[i].isOperator())
+				out<< tokensPostFix[i].getToken() << " ";
+			else
+			{
+				//Operanzi numerici
+				if (!tokensPostFix[i].isLiteral())
+					out << tokensPostFix[i].getValue() << " ";
+				else
+					//Posibilitatea de a avea litere drepte operanzi
+					out << tokensPostFix[i].getToken() << " ";
+			}
+		}
+
+		out << "\n\n\n";
+		out.close();
+	}
+
+	//Salveaza o expresie in forma poloneza prefixata intr-un fisier
+	void savePreFixToFile(const string& path)
+	{
+		ofstream out(path, ios::app);
+		out << "Forma expresiei poloneze prefixate este: \n";
+		for (int i = 0; i < preCount; i++)
+		{
+			if (tokensPreFix[i].isOperator())
+				out << tokensPreFix[i].getToken() << " ";
+			else
+			{
+				//Operanzi numerici
+				if (!tokensPreFix[i].isLiteral())
+					out << tokensPreFix[i].getValue() << " ";
+				else
+					//Posibilitatea de a avea litere drepte operanzi
+					out << tokensPreFix[i].getToken() << " ";
+			}
+		}
+
+		out << "\n\n\n";
+		out.close();
 
 	}
+
+
 };
 
-#pragma endregion
 
+//Citeste o expresie in forma infixata dintr-un fisier si o stocheaza intr-un obiect al clasei Parser.
+Parser readInFixFromFile(const string& path)
+{
+	ifstream file(path, ios::app);
+	string expr;
+	getline(file, expr);
+	Parser p(expr, "math");
+	file.close();
+	return p;
+}
+
+
+
+
+
+#pragma endregion

@@ -1,25 +1,20 @@
 ﻿  Source.cpp
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(21,1): warning C4227: anachronism used: qualifiers on reference are ignored
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(34): message : see reference to class template instantiation 'SortArray<T>' being compiled
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\SortArray.h(115,1): warning C4227: anachronism used: qualifiers on reference are ignored
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\PolishNotation.h(340,12): warning C4018: '<': signed/unsigned mismatch
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\PolishNotation.h(532,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\PolishNotation.h(624,16): warning C4018: '<': signed/unsigned mismatch
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\PolishNotation.h(674,21): warning C4018: '<': signed/unsigned mismatch
 C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h(95,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h(85): message : while compiling class template member function 'Array<T>::Array(const Array<T> &)'
-          with
-          [
-              T=int
-          ]
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\QueueArray.h(35): message : see reference to function template instantiation 'Array<T>::Array(const Array<T> &)' being compiled
-          with
-          [
-              T=int
-          ]
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\QueueArray.h(16): message : see reference to class template instantiation 'Array<T>' being compiled
-          with
-          [
-              T=int
-          ]
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\StackFrom2Queues.h(13): message : see reference to class template instantiation 'QueueArray<T>' being compiled
-          with
-          [
-              T=int
-          ]
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Source.cpp(104): message : see reference to class template instantiation 'StackFromQueues<int>' being compiled
-C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\QueueArray.h(56): warning C4715: 'QueueArray<int>::getHead': not all control paths return a value
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h(85): message : while compiling class template member function 'Array<Token>::Array(const Array<Token> &)'
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\PolishNotation.h(719): message : see reference to function template instantiation 'Array<Token>::Array(const Array<Token> &)' being compiled
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\PolishNotation.h(129): message : see reference to class template instantiation 'Array<Token>' being compiled
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h(185,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h(175): message : while compiling class template member function 'Array<Token> &Array<Token>::operator =(const Array<Token> &)'
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\PolishNotation.h(133): message : see reference to function template instantiation 'Array<Token> &Array<Token>::operator =(const Array<Token> &)' being compiled
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\Array.h(191,22): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\StackArray.h(69): warning C4715: 'StackArray<double>::getTop': not all control paths return a value
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\PolishNotation.h(618): warning C4715: 'Parser::operate': not all control paths return a value
+C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\StackArray.h(69): warning C4715: 'StackArray<Token>::getTop': not all control paths return a value
   Template.vcxproj -> C:\Users\rares\OneDrive\Desktop\An 2 Facultate\Modul 2\Structuri de date\Template\Template\x64\Debug\Template.exe
